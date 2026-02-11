@@ -1,0 +1,36 @@
+services:
+  # Postgres database
+  database:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=unsafe
+      - POSTGRES_USER=user
+      - POSTGRES_DB=feciit
+    container_name: feciit-postgres-database
+    ports:
+      - "5432:5432"
+
+    # Local SMTP emulator
+  smtp:
+    image: axllent/mailpit
+    container_name: feciit-smtp
+    volumes:
+      - ./data:/data
+    ports:
+      - "1025:1025" # smtp
+      - "8025:8025" # web ui
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_DATABASE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+
+  # Azure Blob Storage
+  storage:
+    image: mcr.microsoft.com/azure-storage/azurite
+    container_name: feciit-blob-storage
+    ports:
+      - "10000:10000"
+      - "10001:10001"
+      - "10002:10002"
