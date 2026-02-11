@@ -1,66 +1,176 @@
-# Feciit App
+# Feciit App 🚀
 
-A web application built with [Nuxt](https://nuxt.com) and [Vue](https://vuejs.org).
+Aplicacion web construida con **Nuxt 4 + Vue 3** y organizada por **layers** para separar dominios y facilitar el crecimiento del proyecto.
 
-## About the Stack
+## Que es este proyecto 🧭
 
-### Vue.js
+Feciit App esta pensada para manejar distintas experiencias dentro del mismo repositorio:
 
-Vue is a progressive JavaScript framework for building user interfaces. It provides a reactive data-binding system and composable component architecture, making it easy to build interactive web applications.
+- Sitio publico (`site`) para usuarios finales.
+- Areas internas (`admin`) para staff/administradores.
+- Dominio de autenticacion (`2-auth`) compartible en toda la app.
+- Capa base (`1-base`) con piezas reutilizables y configuracion comun.
 
-### Nuxt
+Este enfoque permite evolucionar cada parte por separado sin perder consistencia tecnica.
 
-Nuxt is a full-stack framework built on top of Vue that provides server-side rendering (SSR), static site generation (SSG), file-based routing, auto-imports, and many other features out of the box. It simplifies the development experience while enabling high-performance applications.
+## Arquitectura por Layers en Nuxt 🧱
 
-## Setup
+Nuxt detecta automaticamente los layers dentro de `layers/` (si cada uno tiene su `nuxt.config.ts`) y luego **fusiona** configuraciones, componentes, composables, paginas y utilidades al iniciar el proyecto.
 
-This project uses **pnpm** as the package manager.
+- Los layers locales se **auto-registran** desde `layers/`.
+- Nuxt los integra y resuelve conflictos por prioridad.
+- El orden alfabetico importa; por eso usamos prefijos numericos (`1-`, `2-`) para controlar prioridad.
+- La app principal puede sobrescribir lo que venga de cualquier layer.
 
-### Install pnpm (if not installed)
+En este repo, la intencion es mantener capas de dominio claras y reutilizables.
+
+## Layers actuales del proyecto 🧩
+
+### `layers/1-base` (base compartida)
+
+Base comun para el resto de la aplicacion:
+
+- Configuracion compartida.
+- Estilos base.
+- Composables/componentes reutilizables.
+- Defaults de UI para lo interno.
+
+Actualmente ya centraliza CSS base y configuraciones compartidas para acelerar el desarrollo en otras capas.
+
+### `layers/2-auth` (autenticacion)
+
+Capa dedicada a autenticacion:
+
+- Logica de auth.
+- Flujo de sesiones y acceso.
+- Utilidades para consumir auth desde otras capas.
+
+Objetivo de esta layer: exportar herramientas reutilizables para que `admin`/dashboard y otras areas internas integren autenticacion sin duplicar logica.
+
+### `layers/admin` (staff/administracion)
+
+Layer para experiencia interna:
+
+- Vistas de administradores y staff.
+- Layouts internos.
+- Dashboard operativo.
+
+Aqui se prioriza velocidad de desarrollo y consistencia de componentes internos.
+
+### `layers/site` (sitio publico)
+
+Layer para la experiencia publica:
+
+- Landing/sitio web visible a usuarios.
+- Diseño con mayor libertad visual.
+
+Importante: en `site` **no se usa Nuxt UI** como dependencia de diseño para preservar flexibilidad creativa. Nuxt UI se utiliza en capas internas para acelerar desarrollo.
+
+## Nuxt UI: donde si y donde no 🎨
+
+- **Si**: capas internas como `1-base`, `2-auth` y `admin` para construir rapido interfaces de trabajo.
+- **No**: `site`, para mantener libertad de diseño y direccion visual propia del sitio publico.
+
+## Requisitos e instalaciones recomendadas 🛠️
+
+Este proyecto usa `pnpm` como gestor de paquetes.
+
+Recomendado instalar:
+
+1. **Node.js LTS**
+2. **pnpm**
+3. **just** (para atajos de infraestructura)
+4. **Docker + Docker Compose**
+
+Instalacion rapida sugerida:
 
 ```bash
 npm install -g pnpm
+brew install just
 ```
 
-### Install dependencies
+> En macOS puedes instalar Docker Desktop para usar `docker compose`.
+
+## Instalacion del proyecto 📦
 
 ```bash
 pnpm install
 ```
 
-### Development Server
-
-Start the development server on `http://localhost:3000`:
+## Comandos principales ⚙️
 
 ```bash
 pnpm dev
-```
-
-### Production
-
-Build the application for production:
-
-```bash
 pnpm build
+pnpm preview
+pnpm generate
 ```
 
-Preview the production build locally:
+### Base de datos (Drizzle)
 
 ```bash
-pnpm preview
+pnpm db:generate
+pnpm db:migrate
+pnpm db:push
+pnpm db:studio
 ```
 
-## VSCode Recommended Extensions
+## Justfile e infraestructura local 🧰
 
-If you're using Visual Studio Code, we recommend installing the following extensions for the best development experience:
+El repo incluye un `Justfile` para simplificar tareas repetitivas de infraestructura:
 
-- **[Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar)** - Official Vue language support (Volar)
-- **[Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)** - Intelligent Tailwind CSS tooling
-- **[ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)** - Integrates ESLint into VS Code
-- **[Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)** - Code formatting support
+```bash
+just infra-start
+just infra-stop
+just infra-clean
+```
 
-## Documentation
+Equivalencias:
 
-- [Nuxt Documentation](https://nuxt.com/docs/getting-started/introduction)
-- [Vue Documentation](https://vuejs.org/guide/introduction.html)
-- [Nuxt Deployment Guide](https://nuxt.com/docs/getting-started/deployment)
+- `infra-start`: levanta servicios con `docker compose up --build -d`.
+- `infra-stop`: detiene servicios con `docker compose stop`.
+- `infra-clean`: elimina contenedores y volumenes con `docker compose down -v`.
+
+## Docker Compose incluido 🐳
+
+`docker-compose.yaml` levanta servicios de soporte para desarrollo local:
+
+- **PostgreSQL** (`database`) en `localhost:5432`
+- **Mailpit** (`smtp`) en `localhost:1025` (SMTP) y `localhost:8025` (UI)
+- **Azurite** (`storage`) en `10000-10002`
+
+Esto permite trabajar localmente con base de datos, correo y almacenamiento sin depender de servicios externos.
+
+## Tecnologias del proyecto + docs oficiales 📚
+
+- [Nuxt 4](https://nuxt.com/docs/4.x/getting-started/introduction)
+- [Nuxt Layers](https://nuxt.com/docs/4.x/getting-started/layers)
+- [Nuxt Directory Layers](https://nuxt.com/docs/4.x/directory-structure/layers)
+- [Vue 3](https://vuejs.org/guide/introduction.html)
+- [TypeScript](https://www.typescriptlang.org/docs/)
+- [Tailwind CSS v4](https://tailwindcss.com/docs)
+- [Nuxt UI](https://ui.nuxt.com/)
+- [Nuxt Image](https://image.nuxt.com/)
+- [Nuxt A11y](https://github.com/nuxt-modules/a11y)
+- [Better Auth](https://www.better-auth.com/docs)
+- [Drizzle ORM](https://orm.drizzle.team/docs/overview)
+- [Drizzle Kit](https://orm.drizzle.team/docs/drizzle-kit-overview)
+- [PostgreSQL (`pg`)](https://node-postgres.com/)
+- [Zod](https://zod.dev/)
+- [ESLint](https://eslint.org/docs/latest/)
+- [Prettier](https://prettier.io/docs/en/)
+- [Docker Compose](https://docs.docker.com/compose/)
+- [Just](https://github.com/casey/just)
+
+## VS Code recomendado 💻
+
+- [Vue - Official (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+- [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+
+## Notas de mantenimiento ✅
+
+- Cada layer debe tener `nuxt.config.ts` para ser reconocido por Nuxt.
+- Mantener responsabilidades claras por layer evita acoplamiento.
+- Si agregas nuevos dominios, preferir nuevas layers en `layers/`.

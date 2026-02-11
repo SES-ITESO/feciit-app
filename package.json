@@ -1,28 +1,40 @@
 {
-  "name": "feciit-app",
-  "type": "module",
-  "private": true,
-  "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
-  },
-  "dependencies": {
-    "@nuxt/a11y": "1.0.0-alpha.1",
-    "@nuxt/eslint": "1.13.0",
-    "@nuxt/hints": "1.0.0-alpha.6",
-    "@nuxt/image": "2.0.0",
-    "@nuxt/ui": "4.4.0",
-    "eslint": "^9.39.2",
-    "nuxt": "^4.3.0",
-    "tailwindcss": "^4.1.18",
-    "typescript": "^5.9.3",
-    "vue": "^3.5.27",
-    "vue-router": "^4.6.4"
-  },
-  "devDependencies": {
-    "prettier": "3.8.1"
-  }
+    "name": "feciit-app",
+    "type": "module",
+    "private": true,
+    "scripts": {
+        "build": "nuxt build",
+        "dev": "nuxt dev",
+        "generate": "nuxt generate",
+        "preview": "nuxt preview",
+        "postinstall": "nuxt prepare",
+        "db:generate": "drizzle-kit generate",
+        "db:migrate": "drizzle-kit migrate",
+        "db:push": "drizzle-kit push",
+        "db:studio": "drizzle-kit studio"
+    },
+    "dependencies": {
+        "@nuxt/a11y": "1.0.0-alpha.1",
+        "@nuxt/eslint": "1.13.0",
+        "@nuxt/hints": "1.0.0-alpha.6",
+        "@nuxt/image": "2.0.0",
+        "@nuxt/ui": "4.4.0",
+        "better-auth": "^1.4.18",
+        "dotenv": "^17.2.4",
+        "drizzle-orm": "^0.45.1",
+        "eslint": "^9.39.2",
+        "nuxt": "^4.3.1",
+        "pg": "^8.18.0",
+        "tailwindcss": "^4.1.18",
+        "typescript": "^5.9.3",
+        "vue": "^3.5.28",
+        "vue-router": "^4.6.4",
+        "zod": "^4.3.6"
+    },
+    "devDependencies": {
+        "@types/pg": "^8.16.0",
+        "drizzle-kit": "^0.31.9",
+        "prettier": "3.8.1",
+        "tsx": "^4.21.0"
+    }
 }
