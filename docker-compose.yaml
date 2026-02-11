@@ -16,7 +16,7 @@ services:
     image: axllent/mailpit
     container_name: feciit-smtp
     volumes:
-      - ./data:/data
+      - ./mailpit/data:/data
     ports:
       - "1025:1025" # smtp
       - "8025:8025" # web ui
