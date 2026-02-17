@@ -1,6 +1,9 @@
 import { relations } from "drizzle-orm";
 import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
 
+/**
+ * Application users managed by Better Auth.
+ */
 export const user = pgTable("user", {
     id: text("id").primaryKey(),
     name: text("name").notNull(),
@@ -16,9 +19,11 @@ export const user = pgTable("user", {
     banned: boolean("banned").default(false),
     banReason: text("ban_reason"),
     banExpires: timestamp("ban_expires"),
-    twoFactorEnabled: boolean("two_factor_enabled").default(false),
 });
 
+/**
+ * Active login sessions for users.
+ */
 export const session = pgTable(
     "session",
     {
@@ -39,6 +44,9 @@ export const session = pgTable(
     (table) => [index("session_userId_idx").on(table.userId)],
 );
 
+/**
+ * Linked auth provider accounts per user.
+ */
 export const account = pgTable(
     "account",
     {
@@ -63,6 +71,9 @@ export const account = pgTable(
     (table) => [index("account_userId_idx").on(table.userId)],
 );
 
+/**
+ * Verification tokens and one-time values.
+ */
 export const verification = pgTable(
     "verification",
     {
@@ -79,28 +90,17 @@ export const verification = pgTable(
     (table) => [index("verification_identifier_idx").on(table.identifier)],
 );
 
-export const twoFactor = pgTable(
-    "two_factor",
-    {
-        id: text("id").primaryKey(),
-        secret: text("secret").notNull(),
-        backupCodes: text("backup_codes").notNull(),
-        userId: text("user_id")
-            .notNull()
-            .references(() => user.id, { onDelete: "cascade" }),
-    },
-    (table) => [
-        index("twoFactor_secret_idx").on(table.secret),
-        index("twoFactor_userId_idx").on(table.userId),
-    ],
-);
-
+/**
+ * User relations.
+ */
 export const userRelations = relations(user, ({ many }) => ({
     sessions: many(session),
     accounts: many(account),
-    twoFactors: many(twoFactor),
 }));
 
+/**
+ * Session relations.
+ */
 export const sessionRelations = relations(session, ({ one }) => ({
     user: one(user, {
         fields: [session.userId],
@@ -108,16 +108,12 @@ export const sessionRelations = relations(session, ({ one }) => ({
     }),
 }));
 
+/**
+ * Account relations.
+ */
 export const accountRelations = relations(account, ({ one }) => ({
     user: one(user, {
         fields: [account.userId],
-        references: [user.id],
-    }),
-}));
-
-export const twoFactorRelations = relations(twoFactor, ({ one }) => ({
-    user: one(user, {
-        fields: [twoFactor.userId],
         references: [user.id],
     }),
 }));

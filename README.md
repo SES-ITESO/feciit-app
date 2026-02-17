@@ -108,6 +108,18 @@ pnpm generate
 
 ### Base de datos (Drizzle)
 
+Este branch deja configurada la base inicial con:
+
+- Schema en `server/infra/db/schema/`
+- Relaciones en `server/infra/db/schema/relations.ts`
+- Migraciones en `server/infra/db/migrations/`
+
+Flujo recomendado para el equipo:
+
+1. Levantar infraestructura local (`just infra-start`).
+2. Generar migraciones cuando cambie el schema.
+3. Aplicar migraciones en la base de datos local.
+
 ```bash
 pnpm db:generate
 pnpm db:migrate
@@ -136,8 +148,24 @@ Equivalencias:
 `docker-compose.yaml` levanta servicios de soporte para desarrollo local:
 
 - **PostgreSQL** (`database`) en `localhost:5432`
+- **pgAdmin** (`pgweb`) en `localhost:5050`
 - **Mailpit** (`smtp`) en `localhost:1025` (SMTP) y `localhost:8025` (UI)
 - **Azurite** (`storage`) en `10000-10002`
+
+### Acceso a pgAdmin
+
+Credenciales de desarrollo local:
+
+- Email: `admin@local.dev`
+- Password: `unsafe`
+
+Para conectar PostgreSQL desde pgAdmin, crear un servidor con:
+
+- Host: `database` (nombre del servicio en Docker Compose)
+- Port: `5432`
+- Username: `user`
+- Password: `unsafe`
+- Database: `feciit`
 
 Esto permite trabajar localmente con base de datos, correo y almacenamiento sin depender de servicios externos.
 
