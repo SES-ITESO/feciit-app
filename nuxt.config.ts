@@ -10,4 +10,14 @@ export default defineNuxtConfig({
         "@nuxt/image",
         "@nuxt/ui",
     ],
+
+    runtimeConfig: {
+        mail: {
+            host: "localhost",
+            port: 587,
+            user: "",
+            pass: "",
+            from: "",
+        },
+    },
 });

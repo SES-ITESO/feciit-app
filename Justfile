@@ -8,3 +8,7 @@ infra-stop:
 
 infra-clean:
     docker compose down -v 
+
+infra-restart-clean:
+    docker compose down -v
+    docker compose up --build -d
