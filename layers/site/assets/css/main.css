@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  --color-feciit-blue: #086cc5;
+  --color-feciit-dark: #252c5b;
+  --color-feciit-surface: #f8fafc;
+  /* Light gray surface for cards */
+
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --shadow-soft: 0 4px 20px -2px rgba(8, 108, 197, 0.1);
+  --shadow-float: 0 10px 30px -4px rgba(8, 108, 197, 0.15);
+}
+
+@layer base {
+  body {
+    @apply bg-white text-feciit-dark font-sans antialiased;
+  }
+
+  * {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply tracking-tight font-semibold;
+  }
+}
