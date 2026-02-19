@@ -1,2 +1,84 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+
+@theme static {
+    --color-brand-50: #eff7ff;
+    --color-brand-100: #d9ecff;
+    --color-brand-200: #baddff;
+    --color-brand-300: #8bc8ff;
+    --color-brand-400: #56abff;
+    --color-brand-500: #1782fa;
+    --color-brand-600: #0f59a6;
+    --color-brand-700: #0d4d8f;
+    --color-brand-800: #104277;
+    --color-brand-900: #133964;
+    --color-brand-950: #0d2542;
+
+    --color-sky-50: #ecfdff;
+    --color-sky-100: #d0f8ff;
+    --color-sky-200: #a7f0ff;
+    --color-sky-300: #67e4ff;
+    --color-sky-400: #21cfff;
+    --color-sky-500: #00b4eb;
+    --color-sky-600: #0a8ebd;
+    --color-sky-700: #11739a;
+    --color-sky-800: #175f7f;
+    --color-sky-900: #184f6a;
+    --color-sky-950: #0d3346;
+
+    /* Site-specific colors */
+    --color-feciit-blue: #086cc5;
+    --color-feciit-dark: #252c5b;
+    --color-feciit-surface: #f8fafc;
+
+    /* Site-specific font */
+    --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    /* Site-specific shadows */
+    --shadow-soft: 0 4px 20px -2px rgba(8, 108, 197, 0.1);
+    --shadow-float: 0 10px 30px -4px rgba(8, 108, 197, 0.15);
+}
+
+:root {
+    --ui-radius: 0.1rem;
+
+    --ui-primary: var(--ui-color-primary-500);
+    --ui-secondary: var(--ui-color-secondary-500);
+
+    --ui-bg: #f8fbff;
+    --ui-bg-muted: #f2f8ff;
+    --ui-bg-elevated: #ffffff;
+    --ui-bg-accented: #e7f1ff;
+    --ui-bg-inverted: #0f59a6;
+
+    --ui-text-dimmed: #637289;
+    --ui-text-muted: #4e6078;
+    --ui-text-toned: #334660;
+    --ui-text: #23364d;
+    --ui-text-highlighted: #11263f;
+    --ui-text-inverted: #ffffff;
+
+    --ui-border: #d7e6f7;
+    --ui-border-muted: #e2edfa;
+    --ui-border-accented: #bfd8f5;
+    --ui-border-inverted: #0f59a6;
+}
+
+@layer base {
+    body {
+        @apply bg-white text-feciit-dark font-sans antialiased;
+    }
+
+    * {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        @apply tracking-tight font-semibold;
+    }
+}

@@ -125,7 +125,23 @@ pnpm db:generate
 pnpm db:migrate
 pnpm db:push
 pnpm db:studio
+pnpm db:seed:dev-users
 ```
+
+### Seed de usuarios staff (solo desarrollo)
+
+Para desbloquear pruebas del flujo OTP de staff mientras se construye la UI de creacion de usuarios, existe el seeder:
+
+```bash
+pnpm db:seed:dev-users
+```
+
+Notas importantes:
+
+- Este script es **solo para desarrollo local**.
+- Crea/actualiza usuarios staff de prueba con correos `@feciit.dev`.
+- Crea usuarios via Better Auth y asigna una contrasena aleatoria temporal (no se usa para login OTP).
+- El script se rehusa a correr en `NODE_ENV=production`.
 
 ## Justfile e infraestructura local 🧰
 

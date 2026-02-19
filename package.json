@@ -11,7 +11,9 @@
         "db:generate": "drizzle-kit generate",
         "db:migrate": "drizzle-kit migrate",
         "db:push": "drizzle-kit push",
-        "db:studio": "drizzle-kit studio"
+        "db:studio": "drizzle-kit studio",
+        "db:seed:admin": "tsx scripts/seed-admin.ts",
+        "db:seed:dev-users": "tsx scripts/seed-dev-users.ts"
     },
     "dependencies": {
         "@nuxt/a11y": "1.0.0-alpha.1",
@@ -19,6 +21,7 @@
         "@nuxt/hints": "1.0.0-alpha.6",
         "@nuxt/image": "2.0.0",
         "@nuxt/ui": "4.4.0",
+        "@pinia/nuxt": "^0.11.3",
         "@vueuse/motion": "^3.0.3",
         "better-auth": "^1.4.18",
         "dotenv": "^17.3.1",
@@ -27,13 +30,14 @@
         "nodemailer": "^8.0.1",
         "nuxt": "^4.3.1",
         "pg": "^8.18.0",
-        "tailwindcss": "^4.1.18",
+        "tailwindcss": "^4.2.0",
         "typescript": "^5.9.3",
         "vue": "^3.5.28",
         "vue-router": "^4.6.4",
         "zod": "^4.3.6"
     },
     "devDependencies": {
+        "@iconify-json/lucide": "^1.2.92",
         "@types/nodemailer": "^7.0.10",
         "@types/pg": "^8.16.0",
         "drizzle-kit": "^0.31.9",
