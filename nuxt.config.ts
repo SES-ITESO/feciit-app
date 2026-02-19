@@ -3,21 +3,27 @@ export default defineNuxtConfig({
     compatibilityDate: "2025-07-15",
     devtools: { enabled: true },
 
+    colorMode: {
+        preference: "light",
+        fallback: "light",
+    },
+
     modules: [
-        "@nuxt/a11y",
-        "@nuxt/eslint",
-        "@nuxt/hints",
-        "@nuxt/image",
-        "@nuxt/ui",
+      "@nuxt/a11y",
+      "@nuxt/eslint",
+      "@nuxt/hints",
+      "@nuxt/image",
+      "@nuxt/ui",
+      "@pinia/nuxt",
     ],
 
     runtimeConfig: {
         mail: {
             host: "localhost",
-            port: 587,
+            port: 1025,
             user: "",
             pass: "",
-            from: "",
+            from: "noreply-local@feciit.dev",
         },
     },
 });

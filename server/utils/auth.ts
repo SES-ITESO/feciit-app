@@ -4,6 +4,8 @@ import { emailOTP, admin, createAuthMiddleware } from "better-auth/plugins";
 import { db } from "../infra/db";
 import { sendEmail } from "./mailer";
 import { sendOtpEmail } from "../lib/mails/otp";
+import { eq, and } from "drizzle-orm";
+import { user } from "../infra/db/schema";
 
 /**
  * Hybrid authentication strategy:
@@ -25,6 +27,7 @@ export const auth = betterAuth({
                     });
                 }
             },
+            disableSignUp: true, // otp validation doesn't give signup
         }),
 
         admin({
@@ -40,19 +43,33 @@ export const auth = betterAuth({
     emailAndPassword: {
         enabled: true,
         requireEmailVerification: false,
+        disableSignUp: true, // Users can't signup
     },
 
     hooks: {
         before: createAuthMiddleware(async (ctx) => {
             // disallow admins to create users with role that are neither admin nor staff
             if (ctx.path === "/admin/create-user") {
+                console.log(ctx.body);
                 if (
-                    (ctx.body?.role && ctx.body?.role !== "staff") ||
+                    ctx.body?.role &&
+                    ctx.body?.role !== "staff" &&
                     ctx.body?.role !== "admin"
                 ) {
                     throw new APIError("BAD_REQUEST", {
                         message: "Role must be either 'staff' or 'admin'",
                     });
+                }
+            }
+
+            // disallow staff members not in database to recieve otp
+            if (ctx.path === "/email-otp/send-verification-otp") {
+                const email = ctx.body?.email || "";
+                const staffMemberInDb = await db.query.user.findFirst({
+                    where: and(eq(user.email, email), eq(user.role, "staff")),
+                });
+                if (!staffMemberInDb) {
+                    return ctx.json({ success: true }); // avoid email enumeration
                 }
             }
         }),
