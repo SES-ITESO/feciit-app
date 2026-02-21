@@ -24,7 +24,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: '22'
           
       # Install dependencies
       - name: Install dependencies
@@ -38,9 +38,9 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "/" # Main folder for your Nuxt code
-          api_location: ""  # Leave blank, Nitro handles it
-          output_location: ".output/public" # The folder Nuxt generates
+          app_location: "/" 
+          api_location: "" 
+          output_location: ".output/public"
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
